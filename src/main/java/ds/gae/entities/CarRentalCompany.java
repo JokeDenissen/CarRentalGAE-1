@@ -36,6 +36,11 @@ import ds.gae.ReservationException;
 	@NamedQuery(
 			name = "getCarTypesOfCompany",
 			query = "SELECT DISTINCT company.carTypes FROM CarRentalCompany company WHERE company.name = :name"
+	),
+	
+	@NamedQuery(
+			name = "getCarsOfCompany",
+			query = "SELECT DISTINCT company.cars FROM CarRentalCompany company WHERE company.name = :name"
 	)
 })
 

@@ -178,10 +178,18 @@ public class CarRentalModel {
      * @return	A list of car IDs of cars with the given car type.
      */
     public Collection<Integer> getCarIdsByCarType(String crcName, CarType carType) {
-    	Collection<Integer> out = new ArrayList<Integer>();
-    	for (Car c : getCarsByCarType(crcName, carType)) {
-    		out.add(c.getId());
-    	}
+    	Set<Integer> out = new HashSet<Integer>();
+		
+		EntityManager manager = EMF.get().createEntityManager();
+		try {
+			Set<Car> cars = (Set<Car>)(manager.createNamedQuery("getCarsOfCompany").setParameter("name", crcName).getResultList().get(0));
+			for (Car car : cars) {
+				CarType type = (CarType)(manager.createNamedQuery("getCarsOfCompany").setParameter("name", crcName).getResultList().get(0));
+				if (type.getName().equals(carType)) {out.add(car.getId());}
+			}
+		}
+		finally {manager.close();}
+    	
     	return out;
     }
     
